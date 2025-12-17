@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Merry Christmas & Happy New Year</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
@@ -22,7 +22,7 @@ body {
   top: 20px;
   width: 100%;
   text-align: center;
-  font-size: 4rem; /* เพิ่มขนาด */
+  font-size: 4rem;
   font-weight: 700;
   text-shadow: 0 0 12px #ff0000, 0 0 25px #ffa07a;
   letter-spacing: 3px;
@@ -39,13 +39,13 @@ body {
 
 .message {
   position: absolute;
-  padding: 12px 20px;
+  padding: 0.6em 1em;
   background: rgba(255,240,240,0.9);
   border-radius: 30px;
   white-space: nowrap;
   animation: float 18s linear infinite;
   box-shadow: 0 4px 12px rgba(139,0,0,0.5);
-  font-size: 18px;
+  font-size: clamp(14px, 4vw, 20px); /* responsive */
   color: #550000;
 }
 
@@ -61,34 +61,36 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255,240,240,0.95);
-  padding: 18px 20px;
-  border-radius: 24px;
-  box-shadow: 0 0 25px #ff6347;
+  padding: 1em;
+  border-radius: 1.5em;
   display: flex;
-  gap: 12px;
+  gap: 0.5em;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 input {
-  padding: 10px 16px;
-  font-size: 18px;
-  width: 260px;
+  flex: 1 1 150px;
+  padding: 0.8em 1em;
+  font-size: 1em;
   border: 2px solid #b22222;
-  border-radius: 20px;
+  border-radius: 1em;
   outline: none;
 }
+
 input:focus {
   box-shadow: 0 0 8px 3px #ff6347;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  flex: 0 0 auto;
+  border-radius: 1em;
   cursor: pointer;
   background: linear-gradient(45deg, #ff0000, #b22222);
   color: white;
   border: none;
-  border-radius: 20px;
 }
 button:hover {
   background: linear-gradient(45deg, #ff6347, #ff4500);
@@ -100,149 +102,8 @@ button:hover {
   background: white;
   border-radius: 50%;
   opacity: 0.8;
-  animation: twinkle 2s infinite alternate;
-  pointer-events: none;
-}
+  animation: twinkle 2s infin
 
-@keyframes twinkle {
-  from {opacity: 0.8;}
-  to {opacity: 0.2;}
-}
-
-/* หิมะ */
-.snowflake {
-  position: fixed;
-  top: -10px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  filter: drop-shadow(0 0 2px white);
-  animation-name: fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  pointer-events: none;
-}
-
-@keyframes fall {
-  0% { transform: translateY(-10px) translateX(0);}
-  100% { transform: translateY(110vh) translateX(50px);}
-}
-
-/* ของขวัญเล็กๆ */
-.gift {
-  position: fixed;
-  width: 30px;
-  height: 30px;
-  background: red;
-  border: 2px solid yellow;
-  border-radius: 6px;
-  animation-name: fall;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  pointer-events: none;
-}
-</style>
-</head>
-<body>
-
-<div id="header">🎄 Merry Christmas & Happy New Year 🎉</div>
-<div id="scene"></div>
-
-<div id="control">
-  <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" maxlength="40" />
-  <button onclick="addMessage()">ส่งข้อความ</button>
-</div>
-
-<script>
-const bannedWords = ['hee','kuy','tad','yed','hum'];
-
-function filterBadWords(text) {
-  let filtered = text;
-  bannedWords.forEach(word => {
-    const re = new RegExp(word, 'gi');
-    filtered = filtered.replace(re, '***');
-  });
-  return filtered;
-}
-
-// โหลดข้อความเก่าจาก LocalStorage
-function loadMessages() {
-  const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-  messages.forEach(msg => addMessageToScene(msg));
-}
-
-// เพิ่มข้อความใหม่ทั้งใน scene และ LocalStorage
-function addMessage() {
-  const input = document.getElementById("textInput");
-  let msg = input.value.trim();
-  if (!msg) return;
-
-  msg = filterBadWords(msg);
-  addMessageToScene(msg);
-
-  let messages = JSON.parse(localStorage.getItem('messages') || '[]');
-  messages.push(msg);
-  localStorage.setItem('messages', JSON.stringify(messages));
-
-  input.value = "";
-}
-
-function addMessageToScene(msg) {
-  const div = document.createElement("div");
-  div.className = "message";
-  div.textContent = msg;
-  div.style.top = Math.random() * 80 + "vh";
-  div.style.animationDuration = (12 + Math.random() * 12) + "s";
-  document.getElementById("scene").appendChild(div);
-}
-
-// ดาว + หิมะ + ของขวัญ
-function createStars(count = 30) {
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
-    star.style.top = Math.random() * window.innerHeight + 'px';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.animationDuration = (1 + Math.random() * 2) + 's';
-    document.body.appendChild(star);
-  }
-}
-
-function createSnowflakes(count = 40) {
-  for (let i = 0; i < count; i++) {
-    const flake = document.createElement('div');
-    flake.className = 'snowflake';
-    const size = Math.random() * 5 + 2;
-    flake.style.width = flake.style.height = size + 'px';
-    flake.style.left = Math.random() * window.innerWidth + 'px';
-    flake.style.animationDuration = (5 + Math.random() * 10) + 's';
-    flake.style.animationDelay = Math.random() * 10 + 's';
-    document.body.appendChild(flake);
-  }
-}
-
-function createGifts(count = 10) {
-  for (let i = 0; i < count; i++) {
-    const gift = document.createElement('div');
-    gift.className = 'gift';
-    gift.style.left = Math.random() * window.innerWidth + 'px';
-    gift.style.animationDuration = (8 + Math.random() * 8) + 's';
-    gift.style.animationDelay = Math.random() * 10 + 's';
-    document.body.appendChild(gift);
-  }
-}
-
-window.onload = function() {
-  createStars();
-  createSnowflakes();
-  createGifts();
-  loadMessages();
-};
-</script>
-
-</body>
-</html>
 
 
 
