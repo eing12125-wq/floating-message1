@@ -10,10 +10,18 @@
 body {
   margin: 0;
   font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
-  background: linear-gradient(135deg, #8b0000, #b22222, #ff6347);
+  background: linear-gradient(135deg, #8b0000, #b22222, #dc143c, #ff4500);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   overflow: hidden;
   color: white;
   position: relative;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* หัวข้อใหญ่ */
@@ -24,10 +32,34 @@ body {
   text-align: center;
   font-size: 4rem;
   font-weight: 700;
-  text-shadow: 0 0 12px #ff0000, 0 0 25px #ffa07a;
+  text-shadow: 
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 30px #ff0000,
+    0 0 40px #ff0000,
+    0 0 50px #ff0000;
   letter-spacing: 3px;
   z-index: 1000;
   user-select: none;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #ff0000,
+      0 0 40px #ff0000;
+  }
+  to {
+    text-shadow: 
+      0 0 20px #fff,
+      0 0 30px #ffa500,
+      0 0 40px #ffa500,
+      0 0 50px #ffa500,
+      0 0 60px #ffa500;
+  }
 }
 
 /* พื้นที่ข้อความลอย */
@@ -39,14 +71,20 @@ body {
 
 .message {
   position: absolute;
-  padding: 0.6em 1em;
-  background: rgba(255,240,240,0.9);
+  padding: 0.6em 1.2em;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,245,240,0.95));
   border-radius: 30px;
   white-space: nowrap;
   animation: float 18s linear infinite;
-  box-shadow: 0 4px 12px rgba(139,0,0,0.5);
-  font-size: clamp(14px, 4vw, 20px); /* responsive */
-  color: #550000;
+  box-shadow: 
+    0 4px 15px rgba(220,20,60,0.4),
+    0 0 20px rgba(255,69,0,0.3),
+    inset 0 -2px 5px rgba(220,20,60,0.2);
+  font-size: clamp(14px, 4vw, 20px);
+  color: #dc143c;
+  font-weight: 600;
+  border: 2px solid rgba(255,99,71,0.6);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
 }
 
 @keyframes float {
@@ -60,41 +98,56 @@ body {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255,240,240,0.95);
-  padding: 1em;
-  border-radius: 1.5em;
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,245,240,0.98));
+  padding: 1.2em 1.5em;
+  border-radius: 2em;
   display: flex;
   gap: 0.5em;
   align-items: center;
   flex-wrap: wrap;
   z-index: 1000;
+  box-shadow: 
+    0 8px 32px rgba(220,20,60,0.3),
+    0 0 40px rgba(255,69,0,0.2),
+    inset 0 -2px 10px rgba(220,20,60,0.1);
+  border: 3px solid rgba(255,99,71,0.5);
 }
 
 input {
   flex: 1 1 150px;
-  padding: 0.8em 1em;
+  padding: 0.9em 1.2em;
   font-size: 1em;
-  border: 2px solid #b22222;
-  border-radius: 1em;
+  border: 2px solid #ff6347;
+  border-radius: 1.2em;
   outline: none;
+  background: rgba(255,255,255,0.95);
+  color: #dc143c;
+  font-weight: 500;
 }
 
 input:focus {
-  box-shadow: 0 0 8px 3px #ff6347;
+  box-shadow: 0 0 15px 5px rgba(220,20,60,0.4);
+  border-color: #dc143c;
 }
 
 button {
-  padding: 0.8em 1em;
+  padding: 0.9em 1.5em;
   font-size: 1em;
   flex: 0 0 auto;
-  border-radius: 1em;
+  border-radius: 1.2em;
   cursor: pointer;
-  background: linear-gradient(45deg, #ff0000, #b22222);
+  background: linear-gradient(45deg, #dc143c, #ff4500);
   color: white;
   border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(220,20,60,0.4);
+  transition: all 0.3s ease;
 }
+
 button:hover {
-  background: linear-gradient(45deg, #ff6347, #ff4500);
+  background: linear-gradient(45deg, #ff4500, #dc143c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220,20,60,0.6);
 }
 
 /* ดาว */
@@ -145,6 +198,102 @@ button:hover {
   pointer-events: none;
 }
 
+/* ลูกบอลคริสต์มาส */
+.bauble {
+  position: fixed;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff6347, #dc143c);
+  box-shadow: 
+    inset -2px -2px 5px rgba(0,0,0,0.3),
+    0 0 10px rgba(220,20,60,0.8);
+  animation-name: swing;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes swing {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(10px) rotate(5deg); }
+  75% { transform: translateX(-10px) rotate(-5deg); }
+}
+
+/* ระฆัง */
+.bell {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: gold;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 0 10px rgba(255,215,0,0.8);
+  animation: bellRing 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(10deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(8deg); }
+  40% { transform: rotate(-8deg); }
+  50% { transform: rotate(0deg); }
+}
+
+/* ริบบิ้น */
+.ribbon {
+  position: fixed;
+  width: 3px;
+  height: 40px;
+  background: linear-gradient(to bottom, #dc143c, #ff6347);
+  animation-name: fall;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* ดาวตก */
+.shooting-star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 10px 2px white;
+  animation: shoot 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-300px) translateY(300px);
+    opacity: 0;
+  }
+}
+
+/* Sparkles */
+.sparkle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: sparkleAnim 1.5s ease-in-out infinite;
+  pointer-events: none;
+  box-shadow: 0 0 6px 2px white;
+}
+
+@keyframes sparkleAnim {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
 /* ปรับหัวข้อบนมือถือ */
 @media screen and (max-width: 600px) {
   #header {
@@ -184,8 +333,16 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const messagesRef = ref(database, 'messages');
 
-// คำหยาบ
-const bannedWords = ['hee','kuy','tad','yed','hum'];
+// คำหยาบ (ภาษาไทย + อังกฤษ)
+const bannedWords = [
+  // ภาษาไทย
+  'ควย', 'หี', 'แตด', 'เหี้ย', 'สัส', 'เชี้ย', 'หรรม', 'กี', 'ปี๊', 
+  'เยด', 'เย็ด', 'เด้า', 'นม', 'จู๋', 'จิ๋ม',
+  // อังกฤษ
+  'hee', 'kuy', 'tad', 'yed', 'hum', 'shit', 'fuck', 'sus',
+  // รูปแบบพิมพ์ผิดหรือหลบ
+  'khuay', 'heee', 'kuyyy', 'sh1t', 'fck', 'fuk'
+];
 
 function filterBadWords(text) {
   let filtered = text;
@@ -196,15 +353,12 @@ function filterBadWords(text) {
   return filtered;
 }
 
-// ฟังข้อความใหม่จาก Firebase (Real-time)
-const displayedMessages = new Set();
+// ฟังข้อความทั้งหมด (เก่า + ใหม่) จาก Firebase (Real-time)
 onChildAdded(messagesRef, (snapshot) => {
-  const messageId = snapshot.key;
-  if (!displayedMessages.has(messageId)) {
-    const msg = snapshot.val().text;
-    addMessageToScene(msg);
-    displayedMessages.add(messageId);
-  }
+  const msg = snapshot.val().text;
+  addMessageToScene(msg);
+}, (error) => {
+  console.error("Error loading messages:", error);
 });
 
 // เพิ่มข้อความใหม่
@@ -234,12 +388,12 @@ function addMessageToScene(msg) {
   document.getElementById("scene").appendChild(div);
 }
 
-// ดาว, หิมะ, ของขวัญ
-function createStars(count = 30) {
+// ดาว, หิมะ, ของขวัญ, ของประดับต่างๆ
+function createStars(count = 50) {
   for (let i = 0; i < count; i++) {
     const star = document.createElement('div');
     star.className = 'star';
-    star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+    star.style.width = star.style.height = (Math.random() * 4 + 1) + 'px';
     star.style.top = Math.random() * window.innerHeight + 'px';
     star.style.left = Math.random() * window.innerWidth + 'px';
     star.style.animationDuration = (1 + Math.random() * 2) + 's';
@@ -247,11 +401,11 @@ function createStars(count = 30) {
   }
 }
 
-function createSnowflakes(count = 40) {
+function createSnowflakes(count = 60) {
   for (let i = 0; i < count; i++) {
     const flake = document.createElement('div');
     flake.className = 'snowflake';
-    const size = Math.random() * 5 + 2;
+    const size = Math.random() * 6 + 2;
     flake.style.width = flake.style.height = size + 'px';
     flake.style.left = Math.random() * window.innerWidth + 'px';
     flake.style.animationDuration = (5 + Math.random() * 10) + 's';
@@ -260,7 +414,7 @@ function createSnowflakes(count = 40) {
   }
 }
 
-function createGifts(count = 10) {
+function createGifts(count = 15) {
   for (let i = 0; i < count; i++) {
     const gift = document.createElement('div');
     gift.className = 'gift';
@@ -271,11 +425,79 @@ function createGifts(count = 10) {
   }
 }
 
+function createBaubles(count = 20) {
+  for (let i = 0; i < count; i++) {
+    const bauble = document.createElement('div');
+    bauble.className = 'bauble';
+    bauble.style.top = Math.random() * 200 + 'px';
+    bauble.style.left = Math.random() * window.innerWidth + 'px';
+    const colors = [
+      'radial-gradient(circle at 30% 30%, #ff6347, #dc143c)',
+      'radial-gradient(circle at 30% 30%, #ff4500, #8b0000)',
+      'radial-gradient(circle at 30% 30%, #ffd700, #ff8c00)',
+      'radial-gradient(circle at 30% 30%, #98fb98, #228b22)',
+      'radial-gradient(circle at 30% 30%, #ffffff, #dcdcdc)'
+    ];
+    bauble.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bauble.style.animationDelay = Math.random() * 3 + 's';
+    document.body.appendChild(bauble);
+  }
+}
+
+function createBells(count = 10) {
+  for (let i = 0; i < count; i++) {
+    const bell = document.createElement('div');
+    bell.className = 'bell';
+    bell.style.top = Math.random() * 150 + 'px';
+    bell.style.left = Math.random() * window.innerWidth + 'px';
+    bell.style.animationDelay = Math.random() * 2 + 's';
+    document.body.appendChild(bell);
+  }
+}
+
+function createRibbons(count = 25) {
+  for (let i = 0; i < count; i++) {
+    const ribbon = document.createElement('div');
+    ribbon.className = 'ribbon';
+    ribbon.style.left = Math.random() * window.innerWidth + 'px';
+    ribbon.style.animationDuration = (6 + Math.random() * 6) + 's';
+    ribbon.style.animationDelay = Math.random() * 8 + 's';
+    document.body.appendChild(ribbon);
+  }
+}
+
+function createShootingStars(count = 5) {
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+    star.style.top = Math.random() * 200 + 'px';
+    star.style.left = window.innerWidth + 'px';
+    star.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(star);
+  }
+}
+
+function createSparkles(count = 30) {
+  for (let i = 0; i < count; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+    document.body.appendChild(sparkle);
+  }
+}
+
 // โหลดทุกอย่างตอนเปิดเว็บ
 window.onload = function() {
   createStars();
   createSnowflakes();
   createGifts();
+  createBaubles();
+  createBells();
+  createRibbons();
+  createShootingStars();
+  createSparkles();
 };
 </script>
 
