@@ -310,28 +310,32 @@ button:hover {
 <div id="control">
   <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" maxlength="40">
   <button onclick="addMessage()">ส่งข้อความ</button>
+  <button onclick="clearMessages()" style="background: linear-gradient(45deg, #666, #999);">ลบทั้งหมด</button>
 </div>
 
 <script type="module">
 // Import Firebase
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getDatabase, ref, push, onChildAdded } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+import { getDatabase, ref, push, onChildAdded, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-// Firebase Configuration (ใช้ config ตัวอย่าง - คุณควรสร้างของตัวเองที่ firebase.google.com)
+// Firebase Configuration - ใส่ Config ของคุณแล้ว ✅
 const firebaseConfig = {
-  apiKey: "AIzaSyDemoKey123456789",
-  authDomain: "demo-project.firebaseapp.com",
-  databaseURL: "https://demo-project-default-rtdb.firebaseio.com",
-  projectId: "demo-project",
-  storageBucket: "demo-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123def456"
+  apiKey: "AIzaSyAQYcOm2dr_KiIpGki_FXhw4IFWdx2QKpU",
+  authDomain: "christmas-message-6d84c.firebaseapp.com",
+  databaseURL: "https://christmas-message-6d84c-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "christmas-message-6d84c",
+  storageBucket: "christmas-message-6d84c.firebasestorage.app",
+  messagingSenderId: "264739189920",
+  appId: "1:264739189920:web:e0e9707825e8434d3905c5",
+  measurementId: "G-JC8514H8FP"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const messagesRef = ref(database, 'messages');
+
+console.log('🔥 Firebase เชื่อมต่อสำเร็จ!');
 
 // คำหยาบ (ภาษาไทย + อังกฤษ)
 const bannedWords = [
@@ -353,12 +357,14 @@ function filterBadWords(text) {
   return filtered;
 }
 
-// ฟังข้อความทั้งหมด (เก่า + ใหม่) จาก Firebase (Real-time)
+// ฟังข้อความจาก Firebase (Real-time)
 onChildAdded(messagesRef, (snapshot) => {
   const msg = snapshot.val().text;
   addMessageToScene(msg);
+  console.log('📩 โหลดข้อความ:', msg);
 }, (error) => {
-  console.error("Error loading messages:", error);
+  console.error("❌ Error loading messages:", error);
+  alert("ไม่สามารถเชื่อมต่อ Firebase ได้ กรุณาตรวจสอบการตั้งค่า");
 });
 
 // เพิ่มข้อความใหม่
@@ -373,6 +379,11 @@ window.addMessage = function() {
   push(messagesRef, {
     text: msg,
     timestamp: Date.now()
+  }).then(() => {
+    console.log('✅ บันทึกข้อความสำเร็จ:', msg);
+  }).catch((error) => {
+    console.error('❌ ไม่สามารถบันทึกข้อความได้:', error);
+    alert('เกิดข้อผิดพลาดในการส่งข้อความ');
   });
 
   input.value = "";
@@ -386,6 +397,22 @@ function addMessageToScene(msg) {
   div.style.top = Math.random() * 80 + "vh";
   div.style.animationDuration = (12 + Math.random() * 12) + "s";
   document.getElementById("scene").appendChild(div);
+}
+
+// ลบข้อความทั้งหมด
+window.clearMessages = function() {
+  if (confirm('ต้องการลบข้อความทั้งหมดใช่ไหม? (จะลบจาก Firebase ด้วย)')) {
+    remove(messagesRef).then(() => {
+      // ลบข้อความที่แสดงอยู่
+      const messages = document.querySelectorAll('.message');
+      messages.forEach(msg => msg.remove());
+      console.log('✅ ลบข้อความทั้งหมดแล้ว');
+      alert('ลบข้อความทั้งหมดเรียบร้อย!');
+    }).catch((error) => {
+      console.error('❌ ไม่สามารถลบข้อความได้:', error);
+      alert('เกิดข้อผิดพลาดในการลบข้อความ');
+    });
+  }
 }
 
 // ดาว, หิมะ, ของขวัญ, ของประดับต่างๆ
@@ -498,12 +525,10 @@ window.onload = function() {
   createRibbons();
   createShootingStars();
   createSparkles();
+  // Firebase จะโหลดข้อความอัตโนมัติผ่าน onChildAdded
+  console.log('🔥 กำลังโหลดข้อความจาก Firebase...');
 };
 </script>
 
 </body>
 </html>
-
-
-
-
