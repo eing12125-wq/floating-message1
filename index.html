@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy New Year & Merry Christmas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
 
+  body {
+    margin: 0;
+    font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
+    background: linear-gradient(to top, #0f2027, #203a43, #2c5364);
+    overflow: hidden;
+    color: white;
+    position: relative;
+  }
+
+  /* หัวข้อใหญ่ */
+  #header {
+    position: fixed;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 0 8px #f8b500, 0 0 15px #ff4e00;
+    letter-spacing: 3px;
+    z-index: 1000;
+    user-select: none;
+  }
+
+  /* ข้อความลอย */
+  #scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .message {
+    position: absolute;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 30px;
+    white-space: nowrap;
+    animation: float 18s linear infinite;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-size: 18px;
+    color: #333;
+  }
+
+  @keyframes float {
+    from { transform: translateX(110vw); }
+    to { transform: translateX(-120%); }
+  }
+
+  /* กล่อง input + ปุ่ม */
+  #control {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.95);
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 0 15px #f8b500;
+    display: flex;
+    gap: 10px;
+  }
+
+  input {
+    padding: 8px;
+    font-size: 16px;
+    width: 220px;
+    border: 2px solid #f8b500;
+    border-radius: 8px;
+  }
+
+  button {
+    padding: 8px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #ff4e00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px #ff4e00cc;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #f86c2a;
+  }
+
+  /* ดาวกระพริบ */
+  .star {
+    position: fixed;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 2s infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes twinkle {
+    from {opacity: 0.8;}
+    to {opacity: 0.2;}
+  }
+
+  /* หิมะตก */
+  .snowflake {
+    position: fixed;
+    top: -10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 2px white);
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10px) translateX(0);}
+    100% { transform: translateY(110vh) translateX(50px);}
+  }
+
+</style>
+</head>
+<body>
+
+<!-- หัวข้อ -->
+<div id="header">🎉 Happy New Year and Merry Christmas 🎄</div>
+
+<!-- พื้นที่แสดงข้อความลอย -->
+<div id="scene"></div>
+
+<!-- กล่อง input ข้อความ -->
+<div id="control">
+  <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" />
+  <button onclick="addMessage()">ส่งข้อความ</button>
+</div>
+
+<script>
+// ฟังก์ชันเพิ่มข้อความลอย
+function addMessage() {
+  const input = document.getElementById("textInput");
+  if (!input.value.trim()) return;
+
+  const div = document.createElement("div");
+  div.className = "message";
+  div.textContent = input.value;
+
+  div.style.top = Math.random() * 80 + "vh";
+  div.style.animationDuration = (12 + Math.random() * 12) + "s";
+
+  document.getElementById("scene").appendChild(div);
+  input.value = "";
+}
+
+// สร้างดาวกระพริบสุ่มบนหน้าจอ
+function createStars(count = 30) {
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.animationDuration = (1 + Math.random() * 2) + 's';
+    document.body.appendChild(star);
+  }
+}
+
+// สร้างหิมะตกสุ่มบนหน้าจอ
+function createSnowflakes(count = 40) {
+  for (let i = 0; i < count; i++) {
+    const flake = document.createElement('div');
+    flake.className = 'snowflake';
+    const size = Math.random() * 5 + 2;
+    flake.style.width = flake.style.height = size + 'px';
+    flake.style.left = Math.random() * window.innerWidth + 'px';
+    flake.style.animationDuration = (5 + Math.random() * 10) + 's';
+    flake.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(flake);
+  }
+}
+
+// สร้างดาวและหิมะตอนโหลดหน้า
+window.onload = function() {
+  createStars();
+  createSnowflakes();
+};
+</script>
+
+</body>
+</html>
