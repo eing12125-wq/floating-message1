@@ -10,18 +10,23 @@
 body {
   margin: 0;
   font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
-  /* พื้นหลังภาพการ์ตูนคริสต์มาส - ลดความละเอียดเพื่อโหลดเร็วขึ้น */
-  background-image: url('https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=1280&q=60');
-  background-size: cover;
-  background-position: center;
+  /* พื้นหลังโทนแดงคริสต์มาส */
+  background: linear-gradient(135deg, #8b0000 0%, #b22222 25%, #dc143c 50%, #ff4500 75%, #8b0000 100%);
+  background-size: 400% 400%;
+  animation: christmasGradient 15s ease infinite;
   background-attachment: fixed;
-  background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
   color: white;
   /* GPU acceleration */
   transform: translateZ(0);
   will-change: auto;
+}
+
+@keyframes christmasGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 body::before {
@@ -44,7 +49,7 @@ body::before {
   100% { background-position: 0% 50%; }
 }
 
-/* หัวข้อใหญ่ - เพิ่ม animation กลับมา */
+/* หัวข้อใหญ่ - โทนแดงคริสต์มาส */
 #header {
   position: fixed;
   top: 15px;
@@ -54,10 +59,10 @@ body::before {
   font-weight: 700;
   text-shadow: 
     0 0 10px #fff,
-    0 0 20px #fff,
+    0 0 20px #ffd700,
     0 0 30px #ff0000,
-    0 0 40px #ff6347,
-    0 0 50px #ffa500;
+    0 0 40px #dc143c,
+    0 0 50px #8b0000;
   letter-spacing: 3px;
   z-index: 1000;
   user-select: none;
@@ -71,17 +76,17 @@ body::before {
   from {
     text-shadow: 
       0 0 10px #fff,
-      0 0 20px #fff,
+      0 0 20px #ffd700,
       0 0 30px #ff0000,
-      0 0 40px #ff6347;
+      0 0 40px #dc143c;
   }
   to {
     text-shadow: 
       0 0 15px #fff,
       0 0 30px #ffd700,
-      0 0 45px #ffa500,
-      0 0 60px #ff4500,
-      0 0 75px #ff1493;
+      0 0 45px #ff4500,
+      0 0 60px #dc143c,
+      0 0 75px #8b0000;
   }
 }
 
@@ -96,21 +101,22 @@ body::before {
 .message {
   position: absolute;
   padding: 0.6em 1.2em;
-  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,240,245,0.98));
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,235,235,0.98));
   border-radius: 30px;
   white-space: nowrap;
   animation: float 18s linear infinite;
   box-shadow: 
-    0 4px 15px rgba(220,20,60,0.5),
-    0 0 25px rgba(255,215,0,0.4),
-    inset 0 -2px 8px rgba(255,182,193,0.3);
+    0 4px 15px rgba(139,0,0,0.6),
+    0 0 25px rgba(220,20,60,0.4),
+    inset 0 -2px 8px rgba(220,20,60,0.3);
   font-size: clamp(14px, 4vw, 20px);
-  color: #dc143c;
-  font-weight: 600;
-  border: 2px solid rgba(255,215,0,0.6);
+  color: #8b0000;
+  font-weight: 700;
+  border: 2px solid rgba(220,20,60,0.7);
   transform: translateZ(0);
   will-change: transform;
   filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
+  text-shadow: 0 1px 3px rgba(139,0,0,0.3);
 }
 
 @keyframes float {
@@ -118,13 +124,13 @@ body::before {
   to { transform: translate3d(-120%, 0, 0); }
 }
 
-/* แถบ input - เพิ่ม glow */
+/* แถบ input - โทนแดงคริสต์มาส */
 #control {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%) translateZ(0);
-  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,245,240,0.98));
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,240,240,0.98));
   padding: 1.2em 1.5em;
   border-radius: 2em;
   display: flex;
@@ -133,10 +139,10 @@ body::before {
   flex-wrap: wrap;
   z-index: 1001;
   box-shadow: 
-    0 8px 30px rgba(220,20,60,0.4),
-    0 0 40px rgba(255,215,0,0.3),
-    inset 0 -2px 10px rgba(255,182,193,0.2);
-  border: 3px solid rgba(255,215,0,0.6);
+    0 8px 30px rgba(139,0,0,0.5),
+    0 0 40px rgba(220,20,60,0.4),
+    inset 0 -2px 10px rgba(220,20,60,0.2);
+  border: 3px solid rgba(220,20,60,0.7);
   will-change: transform;
 }
 
@@ -144,20 +150,20 @@ input {
   flex: 1 1 150px;
   padding: 0.9em 1.2em;
   font-size: 1em;
-  border: 2px solid #ff6347;
+  border: 2px solid #dc143c;
   border-radius: 1.2em;
   outline: none;
   background: rgba(255,255,255,0.98);
-  color: #dc143c;
-  font-weight: 500;
-  box-shadow: inset 0 2px 5px rgba(220,20,60,0.1);
+  color: #8b0000;
+  font-weight: 600;
+  box-shadow: inset 0 2px 5px rgba(139,0,0,0.1);
 }
 
 input:focus {
   box-shadow: 
-    0 0 15px 3px rgba(255,215,0,0.4),
-    inset 0 2px 5px rgba(220,20,60,0.1);
-  border-color: #ffd700;
+    0 0 15px 3px rgba(220,20,60,0.4),
+    inset 0 2px 5px rgba(139,0,0,0.1);
+  border-color: #b22222;
 }
 
 button {
@@ -166,22 +172,23 @@ button {
   flex: 0 0 auto;
   border-radius: 1.2em;
   cursor: pointer;
-  background: linear-gradient(45deg, #dc143c, #ff4500);
+  background: linear-gradient(45deg, #8b0000, #dc143c);
   color: white;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   box-shadow: 
-    0 4px 15px rgba(220,20,60,0.4),
-    0 0 20px rgba(255,69,0,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    0 4px 15px rgba(139,0,0,0.5),
+    0 0 20px rgba(220,20,60,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 button:hover {
-  background: linear-gradient(45deg, #ff4500, #ffd700);
+  background: linear-gradient(45deg, #dc143c, #ff4500);
   transform: translateY(-2px) scale(1.05);
   box-shadow: 
-    0 6px 20px rgba(220,20,60,0.6),
-    0 0 30px rgba(255,215,0,0.5);
+    0 6px 20px rgba(139,0,0,0.7),
+    0 0 30px rgba(220,20,60,0.5);
 }
 
 /* ปรับหัวข้อบนมือถือ */
@@ -278,18 +285,20 @@ button:hover {
   }
 }
 
-/* ของขวัญ */
+/* ของขวัญ - โทนแดงคริสต์มาส */
 .gift {
   position: fixed;
   width: 30px;
   height: 30px;
-  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  background: linear-gradient(135deg, #8b0000 0%, #dc143c 100%);
   border: 3px solid #ffd700;
   border-radius: 6px;
   animation: giftFall 8s linear infinite;
   pointer-events: none;
   z-index: 995;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  box-shadow: 
+    0 0 15px rgba(220,20,60,0.8),
+    inset 0 2px 5px rgba(255,255,255,0.2);
 }
 
 @keyframes giftFall {
@@ -344,6 +353,65 @@ button:hover {
     opacity: 1; 
     transform: scale(1.5) rotate(180deg);
   }
+}
+
+/* ต้นคริสต์มาส */
+.christmas-tree {
+  position: fixed;
+  bottom: 0;
+  width: 50px;
+  height: 70px;
+  pointer-events: none;
+  z-index: 992;
+}
+
+.tree-top {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 40px solid #228b22;
+  position: absolute;
+  bottom: 30px;
+  filter: drop-shadow(0 0 8px rgba(34,139,34,0.6));
+}
+
+.tree-middle {
+  width: 0;
+  height: 0;
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 35px solid #2d7a2d;
+  position: absolute;
+  bottom: 20px;
+  left: 3px;
+}
+
+.tree-trunk {
+  width: 12px;
+  height: 20px;
+  background: #654321;
+  position: absolute;
+  bottom: 0;
+  left: 19px;
+  border-radius: 2px;
+}
+
+.tree-star {
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 10px;
+  height: 10px;
+  background: #ffd700;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: starGlow 1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 5px gold);
+}
+
+@keyframes starGlow {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0.6; transform: scale(1.2); }
 }
 </style>
 </head>
@@ -544,12 +612,14 @@ window.onload = function() {
   createBells(12);
   createSparkles(50);
   createConfetti(60);
+  createChristmasTrees(8);
   
   // สร้างพลุทุกๆ 3 วินาที
   setInterval(createFirework, 3000);
   
   console.log('🔥 กำลังโหลดข้อความจาก Firebase...');
-  console.log('🎆 เอฟเฟกต์คริสต์มาสและปีใหม่พร้อมแล้ว!');
+  console.log('🎆 เอฟเฟกต์คริสต์มาสโทนแดงพร้อมแล้ว!');
+  console.log('🎄 ธีมคริสต์มาสแบบคลาสสิก!');
 };
 
 // หิมะตก
@@ -581,9 +651,9 @@ function createStars(count) {
   }
 }
 
-// พลุ/ดอกไม้ไฟ
+// พลุ/ดอกไม้ไฟ - โทนคริสต์มาส
 function createFirework() {
-  const colors = ['#ff0000', '#ffd700', '#00ff00', '#0099ff', '#ff00ff', '#ff6347', '#ffa500'];
+  const colors = ['#ff0000', '#ffd700', '#228b22', '#ffffff', '#dc143c', '#ffeb3b', '#c41e3a'];
   const x = Math.random() * window.innerWidth;
   const y = Math.random() * window.innerHeight * 0.5;
   
@@ -610,9 +680,9 @@ function createFirework() {
   }
 }
 
-// คอนเฟตตี้
+// คอนเฟตตี้ - โทนคริสต์มาส
 function createConfetti(count) {
-  const colors = ['#ff0000', '#00ff00', '#0099ff', '#ffd700', '#ff1493', '#ffa500'];
+  const colors = ['#ff0000', '#228b22', '#ffd700', '#ffffff', '#c41e3a', '#006400'];
   const shapes = ['circle', 'square', 'rectangle'];
   
   for (let i = 0; i < count; i++) {
@@ -672,6 +742,24 @@ function createSparkles(count) {
     sparkle.style.left = Math.random() * window.innerWidth + 'px';
     sparkle.style.animationDelay = Math.random() * 1.5 + 's';
     document.body.appendChild(sparkle);
+  }
+}
+
+// ต้นคริสต์มาส
+function createChristmasTrees(count) {
+  for (let i = 0; i < count; i++) {
+    const tree = document.createElement('div');
+    tree.className = 'christmas-tree';
+    tree.style.left = (i * (100 / count) + Math.random() * 5) + '%';
+    
+    tree.innerHTML = `
+      <div class="tree-star"></div>
+      <div class="tree-top"></div>
+      <div class="tree-middle"></div>
+      <div class="tree-trunk"></div>
+    `;
+    
+    document.body.appendChild(tree);
   }
 }
 </script>
