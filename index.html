@@ -102,7 +102,197 @@ button:hover {
   background: white;
   border-radius: 50%;
   opacity: 0.8;
-  animation: twinkle 2s infin
+  animation: twinkle 2s infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes twinkle {
+  from {opacity: 0.8;}
+  to {opacity: 0.2;}
+}
+
+/* หิมะ */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 2px white);
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10px) translateX(0);}
+  100% { transform: translateY(110vh) translateX(50px);}
+}
+
+/* ของขวัญ */
+.gift {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: red;
+  border: 2px solid yellow;
+  border-radius: 6px;
+  animation-name: fall;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  pointer-events: none;
+}
+
+/* ต้นคริสต์มาส */
+.tree {
+  position: fixed;
+  bottom: 0;
+  width: 40px;
+  height: 60px;
+  background: linear-gradient(to top, #006400 0%, #00cc44 100%);
+  clip-path: polygon(
+    50% 0%, 60% 15%, 70% 15%, 55% 30%, 
+    65% 30%, 50% 50%, 35% 30%, 45% 30%, 30% 15%, 40% 15%
+  );
+  border-left: 2px solid #004d00;
+  border-right: 2px solid #004d00;
+  z-index: 10;
+  animation-name: sway;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  pointer-events: none;
+}
+
+@keyframes sway {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(5px); }
+}
+
+/* ปรับหัวข้อบนมือถือ */
+@media screen and (max-width: 600px) {
+  #header {
+    font-size: 2.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="header">🎄 Merry Christmas & Happy New Year 🎉</div>
+<div id="scene"></div>
+
+<div id="control">
+  <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" maxlength="40">
+  <button onclick="addMessage()">ส่งข้อความ</button>
+</div>
+
+<script>
+// คำหยาบ
+const bannedWords = ['hee','kuy','tad','yed','hum'];
+
+function filterBadWords(text) {
+  let filtered = text;
+  bannedWords.forEach(word => {
+    const re = new RegExp(word, 'gi');
+    filtered = filtered.replace(re, '***');
+  });
+  return filtered;
+}
+
+// โหลดข้อความเก่า
+function loadMessages() {
+  const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+  messages.forEach(msg => addMessageToScene(msg));
+}
+
+// เพิ่มข้อความใหม่
+function addMessage() {
+  const input = document.getElementById("textInput");
+  let msg = input.value.trim();
+  if (!msg) return;
+
+  msg = filterBadWords(msg);
+  addMessageToScene(msg);
+
+  let messages = JSON.parse(localStorage.getItem('messages') || '[]');
+  messages.push(msg);
+  localStorage.setItem('messages', JSON.stringify(messages));
+
+  input.value = "";
+}
+
+// เพิ่มข้อความลง scene
+function addMessageToScene(msg) {
+  const div = document.createElement("div");
+  div.className = "message";
+  div.textContent = msg;
+  div.style.top = Math.random() * 80 + "vh";
+  div.style.animationDuration = (12 + Math.random() * 12) + "s";
+  document.getElementById("scene").appendChild(div);
+}
+
+// ดาว, หิมะ, ของขวัญ
+function createStars(count = 30) {
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.animationDuration = (1 + Math.random() * 2) + 's';
+    document.body.appendChild(star);
+  }
+}
+
+function createSnowflakes(count = 40) {
+  for (let i = 0; i < count; i++) {
+    const flake = document.createElement('div');
+    flake.className = 'snowflake';
+    const size = Math.random() * 5 + 2;
+    flake.style.width = flake.style.height = size + 'px';
+    flake.style.left = Math.random() * window.innerWidth + 'px';
+    flake.style.animationDuration = (5 + Math.random() * 10) + 's';
+    flake.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(flake);
+  }
+}
+
+function createGifts(count = 10) {
+  for (let i = 0; i < count; i++) {
+    const gift = document.createElement('div');
+    gift.className = 'gift';
+    gift.style.left = Math.random() * window.innerWidth + 'px';
+    gift.style.animationDuration = (8 + Math.random() * 8) + 's';
+    gift.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(gift);
+  }
+}
+
+// ต้นคริสต์มาส
+function createTrees(count = 5) {
+  for (let i = 0; i < count; i++) {
+    const tree = document.createElement('div');
+    tree.className = 'tree';
+    tree.style.left = Math.random() * window.innerWidth + 'px';
+    tree.style.height = (40 + Math.random() * 40) + 'px';
+    document.body.appendChild(tree);
+  }
+}
+
+// โหลดทุกอย่างตอนเปิดเว็บ
+window.onload = function() {
+  createStars();
+  createSnowflakes();
+  createGifts();
+  createTrees();
+  loadMessages();
+};
+</script>
+
+</body>
+</html>
 
 
 
