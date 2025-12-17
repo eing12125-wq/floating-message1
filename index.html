@@ -3,135 +3,149 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Happy New Year & Merry Christmas</title>
+<title>Merry Christmas & Happy New Year</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
 
-  body {
-    margin: 0;
-    font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
-    background: linear-gradient(135deg, #8b0000, #b22222, #ff6347);
-    overflow: hidden;
-    color: white;
-    position: relative;
-  }
+body {
+  margin: 0;
+  font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
+  background: linear-gradient(135deg, #8b0000, #b22222, #ff6347);
+  overflow: hidden;
+  color: white;
+  position: relative;
+}
 
-  #header {
-    position: fixed;
-    top: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
-    text-shadow: 0 0 12px #ff0000, 0 0 25px #ffa07a;
-    letter-spacing: 3px;
-    z-index: 1000;
-    user-select: none;
-  }
+/* หัวข้อใหญ่ */
+#header {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 4rem; /* เพิ่มขนาด */
+  font-weight: 700;
+  text-shadow: 0 0 12px #ff0000, 0 0 25px #ffa07a;
+  letter-spacing: 3px;
+  z-index: 1000;
+  user-select: none;
+}
 
-  #scene {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-  }
+/* พื้นที่ข้อความลอย */
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
 
-  .message {
-    position: absolute;
-    padding: 12px 20px;
-    background: rgba(255,240,240,0.9);
-    border-radius: 30px;
-    white-space: nowrap;
-    animation: float 18s linear infinite;
-    box-shadow: 0 4px 12px rgba(139,0,0,0.5);
-    font-size: 18px;
-    color: #550000;
-  }
+.message {
+  position: absolute;
+  padding: 12px 20px;
+  background: rgba(255,240,240,0.9);
+  border-radius: 30px;
+  white-space: nowrap;
+  animation: float 18s linear infinite;
+  box-shadow: 0 4px 12px rgba(139,0,0,0.5);
+  font-size: 18px;
+  color: #550000;
+}
 
-  @keyframes float {
-    from { transform: translateX(110vw); }
-    to { transform: translateX(-120%); }
-  }
+@keyframes float {
+  from { transform: translateX(110vw); }
+  to { transform: translateX(-120%); }
+}
 
-  #control {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,240,240,0.95);
-    padding: 18px 20px;
-    border-radius: 24px;
-    box-shadow: 0 0 25px #ff6347;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
-  }
+/* แถบ input */
+#control {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,240,240,0.95);
+  padding: 18px 20px;
+  border-radius: 24px;
+  box-shadow: 0 0 25px #ff6347;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 
-  input {
-    padding: 10px 16px;
-    font-size: 18px;
-    width: 260px;
-    border: 2px solid #b22222;
-    border-radius: 20px;
-    outline: none;
-    transition: box-shadow 0.3s ease;
-  }
-  input:focus {
-    box-shadow: 0 0 8px 3px #ff6347;
-  }
+input {
+  padding: 10px 16px;
+  font-size: 18px;
+  width: 260px;
+  border: 2px solid #b22222;
+  border-radius: 20px;
+  outline: none;
+}
+input:focus {
+  box-shadow: 0 0 8px 3px #ff6347;
+}
 
-  button {
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    background: linear-gradient(45deg, #ff0000, #b22222);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 6px 12px #b22222cc;
-    transition: background 0.3s ease;
-    user-select: none;
-  }
-  button:hover {
-    background: linear-gradient(45deg, #ff6347, #ff4500);
-  }
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ff0000, #b22222);
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+button:hover {
+  background: linear-gradient(45deg, #ff6347, #ff4500);
+}
 
-  .star {
-    position: fixed;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: twinkle 2s infinite alternate;
-    pointer-events: none;
-  }
+/* ดาว */
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+  pointer-events: none;
+}
 
-  @keyframes twinkle {
-    from {opacity: 0.8;}
-    to {opacity: 0.2;}
-  }
+@keyframes twinkle {
+  from {opacity: 0.8;}
+  to {opacity: 0.2;}
+}
 
-  .snowflake {
-    position: fixed;
-    top: -10px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    filter: drop-shadow(0 0 2px white);
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    pointer-events: none;
-  }
+/* หิมะ */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 2px white);
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  pointer-events: none;
+}
 
-  @keyframes fall {
-    0% { transform: translateY(-10px) translateX(0);}
-    100% { transform: translateY(110vh) translateX(50px);}
-  }
+@keyframes fall {
+  0% { transform: translateY(-10px) translateX(0);}
+  100% { transform: translateY(110vh) translateX(50px);}
+}
+
+/* ของขวัญเล็กๆ */
+.gift {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: red;
+  border: 2px solid yellow;
+  border-radius: 6px;
+  animation-name: fall;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
 
-<div id="header">🎉 Happy New Year and Merry Christmas 🎄</div>
+<div id="header">🎄 Merry Christmas & Happy New Year 🎉</div>
 <div id="scene"></div>
 
 <div id="control">
@@ -140,9 +154,7 @@
 </div>
 
 <script>
-const bannedWords = [
-  'หี', 'ควย', 'แตด', 'เหี้ย', 'สัส', 'นม', 'เชี้ย', 'แม่ง', 'ชิบหาย', 'ห่า', 'หำ', 'กี', 'หรรม', 'อี', 'ฮี', 'ปี๊'
-];
+const bannedWords = ['hee','kuy','tad','yed','hum'];
 
 function filterBadWords(text) {
   let filtered = text;
@@ -153,24 +165,38 @@ function filterBadWords(text) {
   return filtered;
 }
 
+// โหลดข้อความเก่าจาก LocalStorage
+function loadMessages() {
+  const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+  messages.forEach(msg => addMessageToScene(msg));
+}
+
+// เพิ่มข้อความใหม่ทั้งใน scene และ LocalStorage
 function addMessage() {
   const input = document.getElementById("textInput");
   let msg = input.value.trim();
   if (!msg) return;
 
   msg = filterBadWords(msg);
+  addMessageToScene(msg);
 
-  const div = document.createElement("div");
-  div.className = "message";
-  div.textContent = msg;
+  let messages = JSON.parse(localStorage.getItem('messages') || '[]');
+  messages.push(msg);
+  localStorage.setItem('messages', JSON.stringify(messages));
 
-  div.style.top = Math.random() * 80 + "vh";
-  div.style.animationDuration = (12 + Math.random() * 12) + "s";
-
-  document.getElementById("scene").appendChild(div);
   input.value = "";
 }
 
+function addMessageToScene(msg) {
+  const div = document.createElement("div");
+  div.className = "message";
+  div.textContent = msg;
+  div.style.top = Math.random() * 80 + "vh";
+  div.style.animationDuration = (12 + Math.random() * 12) + "s";
+  document.getElementById("scene").appendChild(div);
+}
+
+// ดาว + หิมะ + ของขวัญ
 function createStars(count = 30) {
   for (let i = 0; i < count; i++) {
     const star = document.createElement('div');
@@ -196,11 +222,27 @@ function createSnowflakes(count = 40) {
   }
 }
 
+function createGifts(count = 10) {
+  for (let i = 0; i < count; i++) {
+    const gift = document.createElement('div');
+    gift.className = 'gift';
+    gift.style.left = Math.random() * window.innerWidth + 'px';
+    gift.style.animationDuration = (8 + Math.random() * 8) + 's';
+    gift.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(gift);
+  }
+}
+
 window.onload = function() {
   createStars();
   createSnowflakes();
+  createGifts();
+  loadMessages();
 };
 </script>
 
 </body>
 </html>
+
+
+
