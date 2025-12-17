@@ -67,6 +67,7 @@ body {
   gap: 0.5em;
   align-items: center;
   flex-wrap: wrap;
+  z-index: 1000;
 }
 
 input {
@@ -144,32 +145,6 @@ button:hover {
   pointer-events: none;
 }
 
-/* ต้นคริสต์มาส */
-.tree {
-  position: fixed;
-  bottom: 0;
-  width: 40px;
-  height: 60px;
-  background: linear-gradient(to top, #006400 0%, #00cc44 100%);
-  clip-path: polygon(
-    50% 0%, 60% 15%, 70% 15%, 55% 30%, 
-    65% 30%, 50% 50%, 35% 30%, 45% 30%, 30% 15%, 40% 15%
-  );
-  border-left: 2px solid #004d00;
-  border-right: 2px solid #004d00;
-  z-index: 10;
-  animation-name: sway;
-  animation-duration: 5s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  pointer-events: none;
-}
-
-@keyframes sway {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(5px); }
-}
-
 /* ปรับหัวข้อบนมือถือ */
 @media screen and (max-width: 600px) {
   #header {
@@ -188,7 +163,27 @@ button:hover {
   <button onclick="addMessage()">ส่งข้อความ</button>
 </div>
 
-<script>
+<script type="module">
+// Import Firebase
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getDatabase, ref, push, onChildAdded } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+// Firebase Configuration (ใช้ config ตัวอย่าง - คุณควรสร้างของตัวเองที่ firebase.google.com)
+const firebaseConfig = {
+  apiKey: "AIzaSyDemoKey123456789",
+  authDomain: "demo-project.firebaseapp.com",
+  databaseURL: "https://demo-project-default-rtdb.firebaseio.com",
+  projectId: "demo-project",
+  storageBucket: "demo-project.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123def456"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const messagesRef = ref(database, 'messages');
+
 // คำหยาบ
 const bannedWords = ['hee','kuy','tad','yed','hum'];
 
@@ -201,24 +196,30 @@ function filterBadWords(text) {
   return filtered;
 }
 
-// โหลดข้อความเก่า
-function loadMessages() {
-  const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-  messages.forEach(msg => addMessageToScene(msg));
-}
+// ฟังข้อความใหม่จาก Firebase (Real-time)
+const displayedMessages = new Set();
+onChildAdded(messagesRef, (snapshot) => {
+  const messageId = snapshot.key;
+  if (!displayedMessages.has(messageId)) {
+    const msg = snapshot.val().text;
+    addMessageToScene(msg);
+    displayedMessages.add(messageId);
+  }
+});
 
 // เพิ่มข้อความใหม่
-function addMessage() {
+window.addMessage = function() {
   const input = document.getElementById("textInput");
   let msg = input.value.trim();
   if (!msg) return;
 
   msg = filterBadWords(msg);
-  addMessageToScene(msg);
-
-  let messages = JSON.parse(localStorage.getItem('messages') || '[]');
-  messages.push(msg);
-  localStorage.setItem('messages', JSON.stringify(messages));
+  
+  // บันทึกลง Firebase
+  push(messagesRef, {
+    text: msg,
+    timestamp: Date.now()
+  });
 
   input.value = "";
 }
@@ -270,24 +271,11 @@ function createGifts(count = 10) {
   }
 }
 
-// ต้นคริสต์มาส
-function createTrees(count = 5) {
-  for (let i = 0; i < count; i++) {
-    const tree = document.createElement('div');
-    tree.className = 'tree';
-    tree.style.left = Math.random() * window.innerWidth + 'px';
-    tree.style.height = (40 + Math.random() * 40) + 'px';
-    document.body.appendChild(tree);
-  }
-}
-
 // โหลดทุกอย่างตอนเปิดเว็บ
 window.onload = function() {
   createStars();
   createSnowflakes();
   createGifts();
-  createTrees();
-  loadMessages();
 };
 </script>
 
