@@ -10,16 +10,18 @@
 body {
   margin: 0;
   font-family: 'Mountains of Christmas', cursive, Arial, sans-serif;
-  /* พื้นหลังภาพการ์ตูนคริสต์มาส */
-  background-image: url('https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=1920&q=80');
+  /* พื้นหลังภาพการ์ตูนคริสต์มาส - ลดความละเอียดเพื่อโหลดเร็วขึ้น */
+  background-image: url('https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=1280&q=60');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  /* เพิ่ม overlay สีเข้มนิดหน่อยเพื่อให้ข้อความอ่านง่าย */
   position: relative;
   overflow: hidden;
   color: white;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  will-change: auto;
 }
 
 body::before {
@@ -32,6 +34,8 @@ body::before {
   background: rgba(0, 0, 0, 0.3);
   z-index: 0;
   pointer-events: none;
+  /* GPU acceleration */
+  transform: translateZ(0);
 }
 
 @keyframes gradientShift {
@@ -40,43 +44,25 @@ body::before {
   100% { background-position: 0% 50%; }
 }
 
-/* หัวข้อใหญ่ */
+/* หัวข้อใหญ่ - ปรับให้รองรับ 2 บรรทัด */
 #header {
   position: fixed;
-  top: 20px;
+  top: 15px;
   width: 100%;
   text-align: center;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  text-shadow: 
-    0 0 10px #fff,
-    0 0 20px #fff,
-    0 0 30px #ff0000,
-    0 0 40px #ff0000,
-    0 0 50px #ff0000;
+  text-shadow: 0 2px 10px rgba(255,0,0,0.8), 0 4px 20px rgba(255,165,0,0.6);
   letter-spacing: 3px;
   z-index: 1000;
   user-select: none;
-  animation: glow 2s ease-in-out infinite alternate;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  will-change: auto;
+  line-height: 1.3;
 }
 
-@keyframes glow {
-  from {
-    text-shadow: 
-      0 0 10px #fff,
-      0 0 20px #fff,
-      0 0 30px #ff0000,
-      0 0 40px #ff0000;
-  }
-  to {
-    text-shadow: 
-      0 0 20px #fff,
-      0 0 30px #ffa500,
-      0 0 40px #ffa500,
-      0 0 50px #ffa500,
-      0 0 60px #ffa500;
-  }
-}
+/* ลบ glow animation ที่หนัก */
 
 /* พื้นที่ข้อความลอย */
 #scene {
@@ -93,28 +79,27 @@ body::before {
   border-radius: 30px;
   white-space: nowrap;
   animation: float 18s linear infinite;
-  box-shadow: 
-    0 4px 15px rgba(220,20,60,0.4),
-    0 0 20px rgba(255,69,0,0.3),
-    inset 0 -2px 5px rgba(220,20,60,0.2);
+  box-shadow: 0 2px 8px rgba(220,20,60,0.3);
   font-size: clamp(14px, 4vw, 20px);
   color: #dc143c;
   font-weight: 600;
-  border: 2px solid rgba(255,99,71,0.6);
-  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+  border: 2px solid rgba(255,99,71,0.5);
+  /* GPU acceleration - ใช้ transform แทน left/right */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 @keyframes float {
-  from { transform: translateX(110vw); }
-  to { transform: translateX(-120%); }
+  from { transform: translate3d(110vw, 0, 0); }
+  to { transform: translate3d(-120%, 0, 0); }
 }
 
-/* แถบ input */
+/* แถบ input - ลด shadow */
 #control {
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,245,240,0.98));
   padding: 1.2em 1.5em;
   border-radius: 2em;
@@ -123,11 +108,9 @@ body::before {
   align-items: center;
   flex-wrap: wrap;
   z-index: 1001;
-  box-shadow: 
-    0 8px 32px rgba(220,20,60,0.3),
-    0 0 40px rgba(255,69,0,0.2),
-    inset 0 -2px 10px rgba(220,20,60,0.1);
+  box-shadow: 0 4px 15px rgba(220,20,60,0.3);
   border: 3px solid rgba(255,99,71,0.5);
+  will-change: transform;
 }
 
 input {
@@ -143,7 +126,7 @@ input {
 }
 
 input:focus {
-  box-shadow: 0 0 15px 5px rgba(220,20,60,0.4);
+  box-shadow: 0 0 10px 2px rgba(220,20,60,0.3);
   border-color: #dc143c;
 }
 
@@ -157,31 +140,36 @@ button {
   color: white;
   border: none;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(220,20,60,0.4);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(220,20,60,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   background: linear-gradient(45deg, #ff4500, #dc143c);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220,20,60,0.6);
+  box-shadow: 0 4px 15px rgba(220,20,60,0.5);
 }
 
 /* ปรับหัวข้อบนมือถือ */
 @media screen and (max-width: 600px) {
   #header {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    top: 10px;
+    padding: 0 10px;
   }
 }
 </style>
 </head>
 <body>
 
-<div id="header">🎄 Merry Christmas & Happy New Year 🎉</div>
+<div id="header">
+  <div style="font-size: 0.6em; margin-bottom: 0.2em; letter-spacing: 2px;">🦉 AI Event : AI wishes with OWL 🦉</div>
+  <div>🎄 Merry Christmas & Happy New Year 🎉</div>
+</div>
 <div id="scene"></div>
 
 <div id="control">
-  <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" maxlength="40">
+  <input id="textInput" placeholder="พิมพ์ข้อความของคุณ" maxlength="40" onkeypress="if(event.key==='Enter') addMessage()">
   <button onclick="addMessage()">ส่งข้อความ</button>
 </div>
 
@@ -277,11 +265,22 @@ if (messagesQuery) {
   alert('ไม่สามารถสร้าง Firebase query ได้');
 }
 
-// เพิ่มข้อความใหม่
+// เพิ่มข้อความใหม่ (มี rate limiting ป้องกัน spam)
+let lastMessageTime = 0;
+const MESSAGE_COOLDOWN = 1000; // 1 วินาที
+
 window.addMessage = function() {
   const input = document.getElementById("textInput");
   let msg = input.value.trim();
   if (!msg) return;
+
+  // Rate limiting
+  const now = Date.now();
+  if (now - lastMessageTime < MESSAGE_COOLDOWN) {
+    console.log('⏳ รอสักครู่ก่อนส่งข้อความอีกครั้ง');
+    return;
+  }
+  lastMessageTime = now;
 
   if (!messagesRef) {
     alert('❌ Firebase ยังไม่พร้อมใช้งาน');
@@ -315,7 +314,8 @@ function addMessageToScene(msg) {
   const div = document.createElement("div");
   div.className = "message";
   div.textContent = msg;
-  div.style.top = Math.random() * 80 + "vh";
+  // ลอยต่ำกว่าหัวข้อ 2 บรรทัด: เริ่มที่ 35vh (ต่ำกว่าหัวข้อ) ถึง 85vh
+  div.style.top = (Math.random() * 50 + 35) + "vh";
   div.style.animationDuration = (12 + Math.random() * 12) + "s";
   document.getElementById("scene").appendChild(div);
   return div; // return element เพื่อเก็บ reference
@@ -350,8 +350,9 @@ window.clearMessages = function() {
 
 // โหลดทุกอย่างตอนเปิดเว็บ
 window.onload = function() {
-  // ไม่มีกราฟิกเคลื่อนไหวแล้ว - ใช้แค่พื้นหลังภาพ
+  // Performance optimization
   console.log('🔥 กำลังโหลดข้อความจาก Firebase...');
+  console.log('⚡ เว็บถูกปรับให้ประหยัดทรัพยากรและลื่นไหล');
 };
 </script>
 
